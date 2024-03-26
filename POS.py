@@ -1,49 +1,110 @@
-# FCS 50 Project
-# You are tasked with developing a Point of Service (POS) system for a retail company (the company
-# who buy things and then sell the things to other companies).
-# When the user first runs your system, they are greeted with the first menu.
-# Menu 1:
-# Enter:
-# 1. To modify the quantities in storage.
-# 2. To add an order
-# 3. To exit
-# If the user inputs 1, the list of items, and their quantities in storage, are displayed in alphabetical 
-# order, ignoring the case of the letters (so “abc” is displayed before “BB”)
-# For example, the code can display:
-# apples: 5
-# Basketball: 10
-# Candles:3
-# Once all these items are displayed, the user is shown menu 2:
-# Enter:
-# 1. To modify the quantities of an item.
-# 2. To display the items sorted by quantities.
-# If the user inputs 1, they are prompted for the item name, and then the new quantity of that item. 
-# If the item did not previously exist in the storage data structure, it is added with the given quantity.
-# If the item exists, it is updated with its new quantity.
-# And if the user inputs quantity =0, the item is deleted from storage.
-# If the user inputs 2, the items are displayed in descending order, sorted by quantity. For example, 
-# the previous items would be displayed as the following:
-# Basketball: 10
-# apples: 5
-# Candles:3
-# Once the user makes these selection, they are taken back to Menu 1.
-# ----- Menu 2 is done, we go back to menu 1 -----
-# Going back to Menu 1, if the user inputs 2, it means that there is a customer who would like to buy 
-# the items from storage.
-# The items are first displayed to the user, and then the user is repeatedly asked to input the items
-# and quantities the customer is buying. Once the user inputs -1 as the item name, or -1 as the 
-# quantity purchased, it means that the clients have purchased all the items they want.
-# Beware: while buying the items the client might ask for something that does not exist in storage (for 
-# example, oranges), or might want to purchase more quantities than available in stock (for example,
-# 100 candles). In these cases, the user should get a warning that this item, or quantity, is not 
-# available in stock).
-# Once the user completed adding all the items they would like to purchase, they are asked if they 
-# would like to place the order:
-# Would you like to place this order? (y/n)
-# If the user inputs y, the purchased items are printed to the user along with their quantities, and the 
-# quantities in storage are updated.
-# If the user inputs n, or any other input, the system displays: order not placed.
-# Once this menu is complete, the user is taken back to Menu 1.
-# The deadline of this project is Sunday, March 31st
-# . We will discuss in class when the code review 
-# session will be.
+# so we have a system that needs to be in a menu which consist of:
+# who are you?
+# 1. Admin
+# 2. Customer 
+# 3. Exit program
+
+# if admin:
+# step1: order the dictionary by quantity in alphabetical order and the admin will have its own menu which consist of:
+# step2: create Admin menu, - modify quantities of an item: the user should type the item name and modify its quantity, and price in the dictionary, if item does not exist, add it to the dictionary 
+#                           - quantity = 0 means remove items 
+#                           - display items sorted by quantity
+# if customer:
+# step 3: type items to purchasing items , if items doesnt exist or quantity doenst exist , show message 
+# step 4: if user perchase all the quantity, then updated quantity in stock = Out stock 
+# step 5: -1 on item or quantity to check out 
+# step 6: email or download to local repository  
+
+
+
+#Start system menu:
+stock = {"Apples":[100,1.3],
+         "books":[10,4.3],
+         "lights":[18,10.50],
+         "chocolates":[122,1.3],
+         "pigs":[50,270],
+         "apples":[100,1.3], 
+         "Bananas":[737,2.30],
+         "bbq":[15,2.13] }
+print(stock)
+
+who_Am_I = int(input("Hello and Welcome! Who are you?(1,2,3)\n 1.Admin \n 2.Customer \n 3.Exit Program \n Awating for your Response: "))
+if who_Am_I==1: #Admin Control 
+    print("Admin Contorl")
+    adminSelection = None
+    adminUsername = input("Enter Username:")
+    adminPassword = input("Enter Password:")
+    if adminUsername == "Admin" and adminPassword == "Admin123": #Acess granted to admin contorl 
+    
+        stock= dict(sorted(stock.items()))  # look for a better sorting method that allows the  user to take big data.
+        print(stock)
+        print("1.Select item to modify") # if the item exist, the admin can change the quantity or the price. 
+                                        # if the item does not exit, ask the admin if he wants to add that item to the stock , if yes , append to the stock items with the quantity and price
+                                        # if no , then return admin contol 
+                                        # if admin says quantity 0 then delete the item from the list 
+        
+        print("2.Sort by Quantity")
+        
+        
+        
+        adminSelection= input("select your choice")
+        if adminSelection == 1:
+            product = input("Which item would you like to modify?")
+            if product in stock:
+                pass #modify the sock ******, if quantity = 0 remove the product from the stock 
+            else:
+                addProduct= input("would you like to add this product to the stock?\n 1.Yes \n 2.No \n Awaiting your choice ")
+                if addProduct == 1:
+                    pass # append product to the stock with quantity and price
+                elif addProduct == 2:
+                    pass # admin is taken back to admin selection menu 
+                else:
+                    print("please select appropriate choice")# take admin back to addproduct
+        elif adminSelection==2:
+            pass # sort the stock dictionary by quantity 
+        else:
+            print("please select the appropriate choice")# take the admin back to the admin selection menu
+
+    else:
+        print("Wrong Authenticatons, Access Denied!!")
+        # go back to who_am_i
+
+
+
+
+
+elif who_Am_I==2:#Customer 
+    customerCart = []
+    print("Hello dear Customer, have fun shopping")
+    while buyProduct != -1: # or quantity not = -1  , repeatedly ask the cutomer to by products
+        print(stock)
+        buyProduct= input("Which product would you like to purchase dear?")
+        if buyProduct in stock:
+            pass # append the item in customerCart and add quantity , subtract the quantitiy from the stock, 
+                 #if quantity > stock quantity , then display a message if the customer wants to buy the remaining stock ,
+                 # if yes , set the customer quantity to the remaining quantity in the stock then remove the item from the stock
+                 # if no then send the customer back to buyProduct   
+        else:
+            print("this product does not exit , please check the stock to see all available products") #send the cutomer back to buyProdcuts 
+
+    print(customerCart)
+    invoice= int(input("would you like a invoice?\n 1. by email\n 2. Download invoice"))# create a message that showes the order details and total price 
+    if invoice == 1:
+        pass # import smtp to send email by gmail
+    elif invoice==2:
+        pass # save invoice as a txt document in local repository, give directory location. 
+
+
+
+
+
+
+elif who_Am_I==3:
+    print("Exiting program") # create a 5 second timer to close the application 
+  
+else:
+    print("Invalid Input, please select the appropriate choice") # send the user back to the main application 
+
+
+
+

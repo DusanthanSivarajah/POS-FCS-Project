@@ -2,7 +2,7 @@
 Point of Service system written in python   
 
 Hello Readers !!
-This was a project done by yours Truely, Dusanthan Sivarajah!!
+This is a project done by yours Truely, Dusanthan Sivarajah!!
 
 Within this repository, you can find the following:
 
