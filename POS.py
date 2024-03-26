@@ -16,6 +16,55 @@
 # step 6: email or download to local repository  
 
 
+#fucntions for Admin
+def addToStock(adminStock,productName, productQuantity, productPrice):# admin adds products to the stock
+    productQuantity = int(input(f"Enter the quantity added to the Stock for {productName}: "))
+    productPrice = float(input(f"Enter the Price for {productName}:  "))
+    adminStock[productName]=[productQuantity,productPrice]
+
+def removeFromStock(adminStock,productName):
+    del adminStock[productName]
+
+def sortByProduct(adminStock):
+    adminStock = dict(sorted(adminStock.items())) 
+    for items, info in adminStock.items():
+        print(f"Product Name: {items}        Quantity: {info[0]}        Price per item: ${info[1]}" )
+    return adminStock
+
+#Functions for Costomer
+def addToCart(stock, cart, productName,productQuantity, productPrice, buyQuantity, itemQuantity): # adds item to cart and updates the stock
+    if productName in cart:# if the product is already in the cart, only add the quantity to the cart and update the stock
+        cart[productName] = [itemQuantity+buyQuantity,productPrice]
+        stock[productName] = [productQuantity-buyQuantity, productPrice]
+    else:
+        cart[productName] = [buyQuantity, productPrice]
+        stock[productName] = [productQuantity-buyQuantity, productPrice]
+    
+def removeFromCart(stock, cart, productName,productQuantity, productPrice, removeQuantity, buyQuantity):# removes products from the customer cart and sends it back to the stock
+    stock[productName] = [productQuantity+removeQuantity, productPrice]
+    cart[productName] = [buyQuantity-removeQuantity, productPrice]
+
+def sortByQuantity(cart): #sorts Quantity by decending order 
+    cart= sorted(cart.items(), key=lambda x: x[1][0], reverse=True)
+
+def recipt(cart, totalSum):
+    for items, info in cart.items():
+        print(f"Product Name:{items}------ Quantity:{info[0]}------Price per item:{info[1]}------Product Sum{info[0]*info[1]}" )
+        totalSum+= info[0]*info[1]
+    print(f"your total is {totalSum:.2f}")
+
+def checkQuantity(compartment): # this is to check the quantity of either stock or cart
+    storageCopy =  compartment.copy() # creating a copy of the dictionary beacuse we cant delete items while iterating over the orginal dictionary
+    for item,info in storageCopy.items():
+        if info[0]<=0:
+            del compartment[item]
+def sendEmail():
+    pass
+def downloadInvoice():
+    pass
+
+
+
 
 #Start system menu:
 stock = {"Apples":[100,1.3],
@@ -36,8 +85,8 @@ if who_Am_I==1: #Admin Control
     adminPassword = input("Enter Password:")
     if adminUsername == "Admin" and adminPassword == "Admin123": #Acess granted to admin contorl 
     
-        stock= dict(sorted(stock.items()))  # look for a better sorting method that allows the  user to take big data.
-        print(stock)
+        stock= sortByProduct(stock)  # look for a better sorting method that allows the  user to take big data.
+        # print(stock)
         print("1.Select item to modify") # if the item exist, the admin can change the quantity or the price. 
                                         # if the item does not exit, ask the admin if he wants to add that item to the stock , if yes , append to the stock items with the quantity and price
                                         # if no , then return admin contol 
@@ -74,7 +123,7 @@ if who_Am_I==1: #Admin Control
 
 
 elif who_Am_I==2:#Customer 
-    customerCart = []
+    customerCart = {}
     print("Hello dear Customer, have fun shopping")
     while buyProduct != -1: # or quantity not = -1  , repeatedly ask the cutomer to by products
         print(stock)
