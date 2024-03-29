@@ -92,11 +92,12 @@ def removeFromCart(marketStock, cart):# removes products from the customer cart 
             marketStock[productName] = [stockQuantity+removeQuantity,itemPrice]
             cart[productName] = [quantityInCart-removeQuantity,itemPrice]
 
-def recipt(cart, totalSum):
+def recipt(cart):
+    totalSum=0
     for items, info in cart.items():
-        print(f"\nProduct Name:{items}------ Quantity:{info[0]}------Price per item:{info[1]}------Product Sum{info[0]*info[1]}" )
+        print(f"\nProduct Name: {items}------ Quantity: {info[0]}------Price per item: {info[1]}------Product Sum: ${info[0]*info[1]:.2f}" )
         totalSum+= info[0]*info[1]
-    print(f"your total is {totalSum:.2f}")
+    print(f"\n Your total is ${totalSum:.2f} \n Thank you, come again!\n\n")
 
 def checkQuantity(compartment): # this is to check the quantity of either stock or cart is =0 , if yes , it removes the item 
     storageCopy =  compartment.copy() # creating a copy of the dictionary beacuse we cant delete items while iterating over the orginal dictionary
@@ -112,69 +113,51 @@ def sendEmail():
 def downloadInvoice():
     pass
 
-
-
-
-#Start system menu:
-stock = {"Apples":[100,1.3],
-         "books":[10,4.3],
-         "lights":[18,10.50],
-         "chocolates":[122,1.3],
-         "rat":[50,270],
-         "apples":[100,1.3], 
-         "Bananas":[737,2.30],
-         "bbq":[15,2.13] }
-checkQuantity(stock)
-
-who_Am_I = int(input("Hello and Welcome! Who are you?(1,2,3)\n 1.Admin \n 2.Customer \n 3.Exit Program \n Awaiting for your Response: "))
-if who_Am_I==1: #Admin Control 
+def adminControl(stock):
     print("Admin Contorl")
     adminSelection = None
     adminUsername = input("Enter Username:")
     adminPassword = input("Enter Password:")
     if adminUsername == "Admin" and adminPassword == "Admin123": #Dummy authentication, Acess granted to admin contorl 
     
-        stock= sortByProduct(stock)  # look for a better sorting method that allows the  user to take big data.
+        stock=sortByProduct(stock)  # look for a better sorting method that allows the  user to take big data.
         # print(stock)
-        print("1.Select item to modify") # if the item exist, the admin can change the quantity or the price. 
+
+        
+        while adminSelection !=-1:
+            print("\n 1.Select item to modify") # if the item exist, the admin can change the quantity or the price. 
                                         # if the item does not exit, ask the admin if he wants to add that item to the stock , if yes , append to the stock items with the quantity and price
                                         # if no , then return admin contol 
                                         # if admin says quantity 0 then delete the item from the list 
         
-        print("2.Sort by Quantity")
+            print(" 2.Sort by Quantity\n 3.Press -1 to exit")
         
-        
-        
-        adminSelection= int(input("select your choice"))
-        if adminSelection == 1:
-            product = input("Which item would you like to modify?")
-            if product in stock:
-                stock = addToStock(stock,product) #modify the sock ******, if quantity = 0 remove the product from the stock
-                stock = checkQuantity(stock) 
+            adminSelection= int(input("Select your choice: "))
+            if adminSelection == 1:
+                product = input("Which item would you like to modify?")
+                if product in stock:
+                    stock = addToStock(stock,product) #modify the sock ******, if quantity = 0 remove the product from the stock
+                    stock = checkQuantity(stock) 
 
-            else:
-                addProduct= int(input("would you like to add this product to the stock?\n 1.Yes \n 2.No \n Awaiting your choice "))
-                if addProduct == 1:
-                    stock= addToStock(stock,product) # append product to the stock with quantity and price
-                    stock = checkQuantity(stock)
-                elif addProduct == 2:
-                    pass # admin is taken back to admin selection menu 
                 else:
-                    print("please select appropriate choice")# take admin back to addproduct
-        elif adminSelection==2:
-            sortByQuantity(stock) # sort the stock dictionary by quantity 
-        else:
-            print("please select the appropriate choice")# take the admin back to the admin selection menu
+                    addProduct= int(input("would you like to add this product to the stock?\n 1.Yes \n 2.No \n Awaiting your choice "))
+                    if addProduct == 1:
+                        stock= addToStock(stock,product) # append product to the stock with quantity and price
+                        stock = checkQuantity(stock)
+                    elif addProduct == 2:
+                        pass # admin is taken back to admin selection menu 
+                    else:
+                        print("please select appropriate choice")# take admin back to addproduct
+            elif adminSelection==2:
+                sortByQuantity(stock) # sort the stock dictionary by quantity 
+            else:
+                print("please select the appropriate choice")# take the admin back to the admin selection menu
 
     else:
         print("Wrong Authenticatons, Access Denied!!")
         # go back to who_am_i
 
-
-
-
-
-elif who_Am_I==2:#Customer 
+def customerPanel(stock):
     customerCart = {}
     buyProduct = None
     print("Hello dear Customer, have fun shopping")
@@ -182,7 +165,10 @@ elif who_Am_I==2:#Customer
     checkQuantity(stock)
     while buyProduct != "-1": # or quantity not = -1  , repeatedly ask the cutomer to by products
         customerSelect= int(input("What would you like to do?\n 1. buy a product ?\n 2. remove product from cart?\n 3. Checkout\n Awaiting for your response: "))
-        if customerSelect==1:
+        
+        
+        
+        if int(customerSelect)==1:
             buyProduct= input("\nWhich product would you like to purchase dear? ")
             if buyProduct in stock:
                 customerCart= addToCart(stock,buyProduct,customerCart) # append the item in customerCart and add quantity , subtract the quantitiy from the stock, 
@@ -196,34 +182,55 @@ elif who_Am_I==2:#Customer
                     # if no then send the customer back to buyProduct   
             else:
                 print("This product does not exit , please check the stock to see all available products") #send the cutomer back to buyProdcuts 
-        if customerSelect==2:
+        elif int(customerSelect)==2:
             removeFromCart(stock,customerCart)
             print ("    ---------------------Market items------------------- \n")
             stock = checkQuantity(stock)
-       
+    
             print ("    ---------------------Items in Cart------------------- \n")
             customerCart= checkQuantity(customerCart)
-        if customerSelect==3:
-            invoice= int(input("Would you like a invoice?\n 1. by email\n 2. Download invoice\n 3. No "))# create a message that showes the order details and total price 
+        elif int(customerSelect)==3:
+            invoice= int(input("Would you like a invoice?\n 1. by email\n 2. Download invoice\n 3. No\n Select your choice "))# create a message that showes the order details and total price 
             if invoice == 1:
                 pass # import smtp to send email by gmail
             elif invoice==2:
                 pass # save invoice as a txt document in local repository, give directory location. 
+            else:
+                break
+        
 
-    print(customerCart)
+    print(f"Here is your recipt\n")
+    recipt(customerCart)
+            
+def mainMenu(stock):
+    checkQuantity(stock)
+    whoAmI = None
+    while whoAmI !=3:
+        whoAmI = int(input("Hello and Welcome! Who are you?(1,2,3)\n 1.Admin \n 2.Customer \n 3.Exit Program \n Awaiting for your Response: "))
+        if whoAmI==1: #Admin Control 
+            adminControl(stock)
+
+        elif whoAmI==2:#Customer 
+            customerPanel(stock)
+
+        elif whoAmI==3:
+            print("Exiting program") # create a 5 second timer to close the application 
     
+    print("Program stopped")
 
 
 
 
+#Start system menu:
+stock = {"Apples":[100,1.3],
+         "books":[10,4.3],
+         "lights":[18,10.50],
+         "chocolates":[122,1.3],
+         "rat":[50,270],
+         "apples":[100,1.3], 
+         "Bananas":[737,2.30],
+         "bbq":[15,2.13] }
 
-
-elif who_Am_I==3:
-    print("Exiting program") # create a 5 second timer to close the application 
-  
-else:
-    print("Invalid Input, please select the appropriate choice") # send the user back to the main application 
-
-
+mainMenu(stock)
 
 
