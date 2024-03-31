@@ -151,14 +151,14 @@ def customerLayout():
     cartProductNameLabel.place(x=50,y=70)
 
     cartProductNameEntry = tb.Entry()
-    cartProductNameEntry.place(x=175,y=68)
+    cartProductNameEntry.place(x=215,y=68)
 
 
     cartProductQuantityLabel = tb.Label(root, text="Product Quantity", font=("Helvetica"), bootstyle="success" )
     cartProductQuantityLabel.place(x=50,y=150)
 
     cartProductQuantityEntry = tb.Entry()
-    cartProductQuantityEntry.place(x=175,y=148)
+    cartProductQuantityEntry.place(x=215,y=148)
 
 
     addToCartButton = tb.Button(root, text="Add to Cart", bootstyle = "success" )
@@ -232,10 +232,6 @@ stock = {"Apples":[100,1.3],
 cart = { }
 
 mainLayout()
-
-
-
-
 
 
 root.mainloop()

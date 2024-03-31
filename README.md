@@ -2,7 +2,7 @@
 Point of Service system written in python   
 
 Hello Readers !!
-This is a project done by yours Truely, Dusanthan Sivarajah!!
+This is a project done by yours Truly, Dusanthan Sivarajah!!
 
 Within this repository, you can find the following:
 
@@ -14,4 +14,8 @@ Within this repository, you can find the following:
 
 "POS.py" - the python code for this project.
 
-note that additional features were added to this project which enclude a admin authentication, email invoice, and a downloadable invoice to local device.   
+"POS-GUI.py" -  the GUI layout page for the menu
+
+"code_GUI.py" - the GUI run file with the logic implemented 
+
+note that additional features were added to this project which include a admin authentication, email invoice(email and password from 2fa is needed), a downloadable invoice to local device, and price of product.   
