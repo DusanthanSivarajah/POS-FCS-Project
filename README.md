@@ -14,7 +14,7 @@ Within this repository, you can find the following:
 
 "POS.py" - the python code for this project.
 
-"POS-GUI.py" -  the GUI layout page for the menu
+"POS-GUI.py" -  the GUI layout page for the menu, using ttkbootstrap 
 
 "code_GUI.py" - the GUI run file with the logic implemented 
 

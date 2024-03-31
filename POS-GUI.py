@@ -1,5 +1,4 @@
 from tkinter import *
-from ttkbootstrap.constants import *
 import ttkbootstrap as tb
 
 
@@ -17,14 +16,14 @@ def exitWindow(): #exits the program
 
 def adminLayout():
     updateWindow()
-    stock = {"Apples":[100,1.3],
-         "books":[10,4.3],
-         "lights":[18,10.50],
-         "chocolates":[122,1.3],
-         "rat":[50,270],
-         "apples":[100,1.3], 
-         "Bananas":[737,2.30],
-         "bbq":[15,2.13] }
+    stock = {"Dog":[100,1.3],
+         "Cat":[10,4.3],
+         "hamsters":[18,10.50],
+         "bIrDs":[122,1.3],
+         "hOrse":[50,270],
+         "Frog":[100,1.3], 
+         "Rabbit":[737,2.30],
+         "fish":[15,2.13] }
     stockData = "\n".join([f"Product Name: {key}        Quantity: {info[0]}        Price per item: ${info[1]:.2f}" for key, info in stock.items()])
 
 
@@ -219,14 +218,14 @@ def mainLayout():
 
     
 #creating label 
-stock = {"Apples":[100,1.3],
-         "books":[10,4.3],
-         "lights":[18,10.50],
-         "chocolates":[122,1.3],
-         "rat":[50,270],
-         "apples":[100,1.3], 
-         "Bananas":[737,2.30],
-         "bbq":[15,2.13] }
+stock = {"Dog":[100,1.3],
+         "Cat":[10,4.3],
+         "hamsters":[18,10.50],
+         "bIrDs":[122,1.3],
+         "hOrse":[50,270],
+         "Frog":[100,1.3], 
+         "Rabbit":[737,2.30],
+         "fish":[15,2.13] }
 
 
 cart = { }
