@@ -18,4 +18,4 @@ Within this repository, you can find the following:
 
 "code_GUI.py" - the GUI run file with the logic implemented 
 
-note that additional features were added to this project which include a admin authentication, email invoice(email and password from 2fa is needed), a downloadable invoice to local device, and price of product.   
+note that additional features were added to this project which include a admin authentication, email invoice(email and password from 2fa is needed), a downloadable invoice to local device,price of product, and customer return.   

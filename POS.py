@@ -137,7 +137,7 @@ def removeFromCart(marketStock, cart):# removes products from the customer cart 
     try:
         productName = input("Which product would you like to remove from the cart? ")  
         
-        ## check if issues , i think the issues is if im romoving from the cart , its not adding back to the stock
+       
         
         if productName in cart:
             itemPrice =  cart[productName][1]
@@ -157,9 +157,24 @@ def removeFromCart(marketStock, cart):# removes products from the customer cart 
             
             
             else:
-                stockQuantity = marketStock[productName][0]
-                marketStock[productName] = [stockQuantity+removeQuantity,itemPrice]
-                cart[productName] = [quantityInCart-removeQuantity,itemPrice]
+                if productName in cart:
+                        quantityInCart = cart[productName][0]
+                else:
+                            
+                        quantityInCart = 0 # If the product is not in the cart, set the quantity to 0
+
+                        
+                if productName in marketStock: # Gets the stock quantity
+                    stockQuantity = marketStock[productName][0]
+                            
+                else:
+                            
+                    stockQuantity = 0     # If the product is not in the stock, set the quantity to 0
+
+                # Update stock and cart quantities
+                marketStock[productName] = [stockQuantity + removeQuantity, itemPrice]
+                cart[productName] = [quantityInCart - removeQuantity, itemPrice]
+               
         else: 
             print("this Product is not in your Cart")
     except ValueError:
@@ -227,13 +242,13 @@ def adminControl(stock):
     adminPassword = input("Enter Password:")
     if adminUsername == "Admin" and adminPassword == "Admin123": #Dummy authentication, Acess granted to admin contorl 
     
-        stock=sortByProduct(stock)  # look for a better sorting method that allows the  user to take big data.
+        stock=sortByProduct(stock)  #sorts the stock
         # print(stock)
 
         
         while adminSelection != "-1":
             print("\n 1.Select item to modify") # if the item exist, the admin can change the quantity or the price. 
-                                        # if the item does not exit, ask the admin if he wants to add that item to the stock , if yes , append to the stock items with the quantity and price
+                                        # if the item does not exit, ask the admin if he wants to add that item to the stock , if yes , add to the stock items with the quantity and price
                                         # if no , then return admin contol 
                                         # if admin says quantity 0 then delete the item from the list 
         
@@ -262,7 +277,7 @@ def adminControl(stock):
 
     else:
         print("Wrong Authenticatons, Access Denied!!")
-        # go back to who_am_i
+        # go back to whoAmI
     return(stock)    
 
 def customerPanel(stock):
